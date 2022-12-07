@@ -1,12 +1,12 @@
 
 import express from 'express';
 import minimist from 'minimist';
+import morgan from 'morgan';
 // import
 import { add, subtract, multiply, divide } from './lib/calculator';
 
+// add morgan to the APi
 
-// add morgan to the api
-const morgan = require('morgan')
 app.use(morgan);
 
 //add database
