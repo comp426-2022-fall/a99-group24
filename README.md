@@ -5,7 +5,7 @@ Detailed information of this project is in the file of `documentation.md` within
 
 ## Demo Video
 ---
-| Team_24 | Demo video link | https://github.com/comp426-2022-fall/a99-group24| 
+| Team_24 | https://youtu.be/mB0bnHDoW_Y | https://github.com/comp426-2022-fall/a99-group24| 
 
 
 ## Installation
