@@ -28,11 +28,20 @@ export default{
         if (this.checkTable(tableName)){
             this.createLogTable(tableName);
         }
-        const queryRetrieveLog = `SELECT * FROM ${tableName} ORDER BY id DESC LIMIT 10;`
+        const queryRetrieveLog = `SELECT * FROM ${tableName};`
         let stmt = db.prepare(queryRetrieveLog);
         let output = stmt.all();
 
         return output;
     },
+
+    dropLog: function() {
+        let tableName = 'datalog'
+        if (this.checkTable(tableName)) {
+           this.createLogTable(tableName);
+        }
+        const queryDropTable = `DROP TABLE ${tableName};`
+        db.exec(queryDropTable);
+     
     
-}
+}}
