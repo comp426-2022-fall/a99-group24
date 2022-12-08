@@ -87,33 +87,31 @@ app.get('/app/divide/', (req,res)=>{
     }
   })
 
-// get sine by entering radians and radius 
+// get sine by entering radians
 app.get('/app/getSin/', (req,res)=>{
     const radians = args.radians
-    const radius = args.radius
-    if (isNaN(radians) && isNaN(radius)){
+    if (isNaN(radians)){
         res.status(500)
         res.send('There is an error occured when intering numbers')
     } else {
-      if (-1 <= radians <= 1 && Number.MIN_SAFE_INTEGER <= radius <= Number.MAX_SAFE_INTEGER){
-      res.send(getSin(radians,radius).toString());
-      sqlDatabase.insertLog("success", "/app/getSin/", getSin(radians,radius).toString());
+      if (-1 <= radians <= 1 ){
+      res.send(getSin(radians).toString());
+      sqlDatabase.insertLog("success", "/app/getSin/", getSin(radians).toString());
       }
     }
   })
 
 
-// get cosine by entering radians and radius 
+// get cosine by entering radians
 app.get('/app/getCos/', (req,res)=>{
     const radians = args.radians
-    const radius = args.randius
-    if (isNaN(radians) && isNaN(radius)){
+    if (isNaN(radians)){
         res.status(500)
         res.send('There is an error occured when intering numbers')
     } else {
-      if (-1 <= radians <= 1 && Number.MIN_SAFE_INTEGER <= radius <= Number.MAX_SAFE_INTEGER){
+      if (-1 <= radians <= 1){
       res.send(getCos(radians,radius).toString());
-      sqlDatabase.insertLog("success", "/app/getCos/", getCos(radians,radius).toString());
+      sqlDatabase.insertLog("success", "/app/getCos/", getCos(radians).toString());
       }
     }
   })
