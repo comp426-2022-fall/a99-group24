@@ -33,8 +33,9 @@ app.get('/app/add/', (req,res)=>{
         res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER && Number.MIN_SAFE_INTEGER <= n2 <= Number.MAX_SAFE_INTEGER){
-        sqlDatabase.insertLog("success", "/app/add/", add(n1,n2).toString())
         res.send(add(n1,n2).toString());
+        sqlDatabase.insertLog("success", "/app/add/", add(n1,n2).toString());
+        
       }
     }
 })
