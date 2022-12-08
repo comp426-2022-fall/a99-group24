@@ -1,4 +1,3 @@
-
 import express from 'express';
 import minimist from 'minimist';
 // import functions
@@ -30,7 +29,7 @@ app.get('/app/add/', (req,res)=>{
     const n2 = args.n2
     if (isNaN(n1) && isNaN(n2)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER && Number.MIN_SAFE_INTEGER <= n2 <= Number.MAX_SAFE_INTEGER){
         res.send(add(n1,n2).toString());
@@ -47,10 +46,11 @@ app.get('/app/add/', (req,res)=>{
     const n2 = args.n2
     if (isNaN(n1) && isNaN(n2)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER && Number.MIN_SAFE_INTEGER <= n2 <= Number.MAX_SAFE_INTEGER){
       res.send(subtract(n1,n2).toString());
+      sqlDatabase.insertLog("success", "/app/subtract/", subtract(n1,n2).toString());
       }
     }
   })
@@ -62,10 +62,11 @@ app.get('/app/multiply/', (req,res)=>{
     const n2 = args.n2
     if (isNaN(n1) && isNaN(n2)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER && Number.MIN_SAFE_INTEGER <= n2 <= Number.MAX_SAFE_INTEGER){
       res.send(multiply(n1,n2).toString());
+      sqlDatabase.insertLog("success", "/app/multiply/", multiply(n1,n2).toString());
       }
     }
   })
@@ -77,37 +78,42 @@ app.get('/app/divide/', (req,res)=>{
     const n2 = args.n2
     if (isNaN(n1) && isNaN(n2)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER && Number.MIN_SAFE_INTEGER <= n2 <= Number.MAX_SAFE_INTEGER){
       res.send(divide(n1,n2).toString());
+      sqlDatabase.insertLog("success", "/app/divide/", divide(n1,n2).toString());
       }
     }
   })
 
-// get sine by entering radians
+// get sine by entering radians and radius 
 app.get('/app/getSin/', (req,res)=>{
     const radians = args.radians
-    if (isNaN(radians)){
+    const radius = args.radius
+    if (isNaN(radians) && isNaN(radius)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
-      if (-1 <= radians <= 1){
-      res.send(getSin(radians).toString());
+      if (-1 <= radians <= 1 && Number.MIN_SAFE_INTEGER <= radius <= Number.MAX_SAFE_INTEGER){
+      res.send(getSin(radians,radius).toString());
+      sqlDatabase.insertLog("success", "/app/getSin/", getSin(radians,radius).toString());
       }
     }
   })
 
 
-// get cosine by entering radians
+// get cosine by entering radians and radius 
 app.get('/app/getCos/', (req,res)=>{
     const radians = args.radians
-    if (isNaN(radians)){
+    const radius = args.randius
+    if (isNaN(radians) && isNaN(radius)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
-      if (-1 <= radians <= 1){
-      res.send(getCos(radians).toString());
+      if (-1 <= radians <= 1 && Number.MIN_SAFE_INTEGER <= radius <= Number.MAX_SAFE_INTEGER){
+      res.send(getCos(radians,radius).toString());
+      sqlDatabase.insertLog("success", "/app/getCos/", getCos(radians,radius).toString());
       }
     }
   })
@@ -117,9 +123,10 @@ app.get('/app/getTanFromRadians/', (req,res)=>{
     const radians = args.radians
     if (isNaN(radians)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       res.send(getTanFromRadians(radians).toString());
+      sqlDatabase.insertLog("success", "/app/getTanFromRadians/", getTanFromRadians(radians).toString());
     }
   })
 
@@ -128,10 +135,11 @@ app.get('/app/getTanFromDegrees/', (req,res)=>{
     const degree = args.degree
     if (isNaN(degree)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if (-360 <= degree <= 360){
       res.send(getTanFromDegrees(degree).toString());
+      sqlDatabase.insertLog("success", "/app/getTanFromDegrees/", getTanFromDegrees(degree).toString());
       }
     }
   })
@@ -142,10 +150,11 @@ app.get('/app/exponentiation/', (req,res)=>{
     const n2 = args.n2
     if (isNaN(n1) && isNaN(n2)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER && Number.MIN_SAFE_INTEGER <= n2 <= Number.MAX_SAFE_INTEGER){
       res.send(exponentiation(n1,n2).toString());
+      sqlDatabase.insertLog("success", "/app/exponentiation/", exponentiation(n1,n2).toString());
       }
     }
   })
@@ -155,12 +164,13 @@ app.get('/app/getLog/', (req,res)=>{
     const log = args.n1
     if (isNaN(log)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if(log == 0){
         res.send('Negative Infinity');
       } else if (log > 0){
         res.send(getLog(log).toString());
+        sqlDatabase.insertLog("success", "/app/getLog/", getLog(log).toString());
       }
     }
   })
@@ -171,12 +181,13 @@ app.get('/app/getLogFromDifferentBase/', (req,res)=>{
     const base = args.n2
     if (isNaN(log) && isNaN(base)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if(log == 0){
         res.send('Negative Infinity');
       } else if (log > 0){
         res.send(getLogFromDifferentBase(log, base).toString());
+        sqlDatabase.insertLog("success", "/app/getLogFromDifferentBase/", getLogFromDifferentBase(log, base).toString());
       }
     }
   })
@@ -186,10 +197,11 @@ app.get('/app/getSqaureRoot/', (req,res)=>{
     const n1 = args.n1
     if (isNaN(n1)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER){
         res.send(getSqaureRoot(n1).toString());
+        sqlDatabase.insertLog("success", "/app/getSqaureRoot/", getSqaureRoot(n1).toString());
         }
     }
   })
@@ -199,10 +211,11 @@ app.get('/app/getCubeRoot/', (req,res)=>{
     const n1 = args.n1
     if (isNaN(n1)){
         res.status(500)
-        res.send('There is an error occured when entering numbers')
+        res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER){          
         res.send(getCubeRoot(n1).toString());
+        sqlDatabase.insertLog("success", "/app/getCubeRoot/", getCubeRoot(n1).toString());
       }
     }
   })
@@ -214,9 +227,10 @@ app.get('/app/deriv/', (req,res)=>{
     const power = args.power
     if (isNaN(n1) && isNaN(power)){
       res.status(500)
-      res.send('There is an error occured when entering numbers')
+      res.send('There is an error occured when intering numbers')
   } else {
       res.send(deriv(n1, power).toString());
+      sqlDatabase.insertLog("success", "/app/deriv/", deriv(n1, power).toString());
     }
   })
 
@@ -227,9 +241,10 @@ app.get('/app/nthDeriv/', (req,res)=>{
     const func = args.func
     if (isNaN(n1) && isNaN(x1)){
       res.status(500)
-      res.send('There is an error occured when entering numbers')
+      res.send('There is an error occured when intering numbers')
   } else {
       res.send(nthDeriv(n1, x1, func).toString());
+      sqlDatabase.insertLog("success", "/app/nthDeriv/", nthDeriv(n1, x1, func).toString());
     }
   })
 
@@ -250,5 +265,6 @@ app.get("*", (req, res) => {
     res.status(404).send("404 NOT FOUND");
   });
 
-  app.listen(port);
+//sqlDatabase.dropLog();
 
+  app.listen(port);
