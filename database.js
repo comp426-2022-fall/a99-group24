@@ -1,32 +1,38 @@
 import sqlite3 from 'better-sqlite3';
+import { query } from 'express';
 
 const db = new sqlite3('data.db');
 
-const stmt = db.prepare(`SELECT name FROM sqlite_master WHERE type='table' and name='accesslog';`)
-let row = stmt.get();
+export default{
+    checkTable : function (tableName) {
+        const stmt = db.prepare(`SELECT name FROM sqlite_master WHERE type='table' and name='datalog';`)
+        let row = stmt.get();
+        return row === underfined
+    },
 
-if (row === undefined){
-    console.log('Database appears to be empty.')
+    createLogTable: function (tableName){
+        const queryCreateTable = `CREATE TABLE ${tableName} (status TEXT NOT NULL, endpoint TEXT NOT NULL, detail TEXT);`
+        db.exec(queryCreateTable)
+    },
+    insertLog : function (status, endpointName, Answer){
+        let tableName = 'datalog'
+        if (this.checkTable(tableName)){
+            this.createLogTable(tableName);
+        }
+        const queryInsertLog = `INSERT INTO ${tableName} (status, endpoint, answer) VALUES ('${status}','${endpointName}', '${Answer}');`
+        db.exec(queryInsertLog);
+    },
 
-    const sqlInit = `
-        CREATE TABLE accesslog (
-            id INTERGER PRIMARY KEY,
-            address TEXT,
-            user TEXT,
-            time TEXT,
-            method TEXT,
-            url TEXT,
-            protocol TEXT,
-            version TEXT,
-            status TEXT,
-            referrer TEXT,
-            agent TEXT
-        );
+    retrieveLog : function () {
+        let tableName = 'datalog';
+        if (this.checkTable(tableName)){
+            this.createLogTable(tableName);
+        }
+        const queryRetrieveLog = `SELECT * FROM ${tableName} ORDER BY id DESC LIMIT 10;`
+        let stmt = db.prepare(queryRetrieveLog);
+        let output = stmt.all();
 
-    `
-    db.exec(sqlInit)
-} else {
-    console.log('Log database is already exist')
+        return output;
+    },
+    
 }
-
-module.export = db
