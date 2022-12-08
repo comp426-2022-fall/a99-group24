@@ -33,8 +33,9 @@ app.get('/app/add/', (req,res)=>{
         res.send('There is an error occured when intering numbers')
     } else {
       if (Number.MIN_SAFE_INTEGER <= n1 <= Number.MAX_SAFE_INTEGER && Number.MIN_SAFE_INTEGER <= n2 <= Number.MAX_SAFE_INTEGER){
-        sqlDatabase.insertLog("success", "/app/add/", add(n1,n2).toString())
         res.send(add(n1,n2).toString());
+        sqlDatabase.insertLog("success", "/app/add/", add(n1,n2).toString());
+        
       }
     }
 })
@@ -237,6 +238,9 @@ app.get('/app/nthDeriv/', (req,res)=>{
   app.get('/app/getLogs/', (req,res)=>{
     try{
       let logs = sqlDatabase.retrieveLog();
+      sqlDatabase.insertLog("success", "/app/getLogs/", 'dafault as json style');
+      
+      res.send(JSON.stringify(logs, null, 4));
     }catch (err){
       sqlDatabase.insertLog("fail", "app/getLogs/", "500 server error: cant retrieve logs");
       res.status(500);
@@ -249,4 +253,3 @@ app.get("*", (req, res) => {
   });
 
   app.listen(port);
-
