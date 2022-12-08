@@ -5,7 +5,7 @@ const db = new sqlite3('data.db');
 
 export default{
     checkTable: function (tableName) {
-        const stmt = db.prepare(`SELECT name FROM sqlite_master WHERE type='table' and name='${tableName}';`)
+        const stmt = db.prepare(`SELECT name FROM sqlite_master WHERE type='table' and name = '${tableName}';`);
         let row = stmt.get();
         return row === undefined
     },
