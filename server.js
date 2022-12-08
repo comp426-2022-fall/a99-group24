@@ -237,6 +237,9 @@ app.get('/app/nthDeriv/', (req,res)=>{
   app.get('/app/getLogs/', (req,res)=>{
     try{
       let logs = sqlDatabase.retrieveLog();
+      sqlDatabase.insertLog("success", "/app/getLogs/", 'dafault as json style');
+      
+      res.send(JSON.stringify(logs, null, 4));
     }catch (err){
       sqlDatabase.insertLog("fail", "app/getLogs/", "500 server error: cant retrieve logs");
       res.status(500);
